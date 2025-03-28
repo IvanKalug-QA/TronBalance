@@ -1,6 +1,6 @@
 from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, desc
 
 from app.models.tron import Wallet
 from app.schemas.tron import AddressWallet
@@ -18,7 +18,7 @@ class TronCRUD:
     async def get_all_wallet_address(
             self, session: AsyncSession) -> list[Wallet]:
         db_wallets = await session.execute(
-            select(Wallet)
+            select(Wallet).order_by(desc(Wallet.created_at))
         )
         return db_wallets.scalars().all()
 

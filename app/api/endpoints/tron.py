@@ -28,7 +28,7 @@ async def get_wallet_info(
 
 @router.get(
     '/get_wallets',
-
+    dependencies=[Depends(current_user)],
     response_model=Page[AddressReadDB])
 async def get_all_address(session: AsyncSession = Depends(get_async_session)):
     data = await tron_crud.get_all_wallet_address(session)
